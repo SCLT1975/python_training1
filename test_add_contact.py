@@ -3,6 +3,7 @@ from selenium.webdriver.firefox.webdriver import WebDriver
 from group import Group
 import unittest
 
+
 def is_alert_present(wd):
     try:
         wd.switch_to_alert().text
@@ -10,11 +11,12 @@ def is_alert_present(wd):
     except:
         return False
 
+
 class test_add_group_py(unittest.TestCase):
     def setUp(self):
         self.wd = WebDriver(capabilities={"marionette": False})
         self.wd.implicitly_wait(60)
-    
+
     def test_test_add_group_py(self):
         wd = self.wd
         self.open_home_page(wd)
@@ -24,7 +26,6 @@ class test_add_group_py(unittest.TestCase):
         self.return_to_groups(wd)
         self.logout(wd)
 
-
     def test_test_add_empty_group_py(self):
         wd = self.wd
         self.open_home_page(wd)
@@ -33,7 +34,6 @@ class test_add_group_py(unittest.TestCase):
         self.create_group(wd, Group(name="", header="", footer=""))
         self.return_to_groups(wd)
         self.logout(wd)
-
 
     def logout(self, wd):
         wd.find_element_by_link_text("Logout").click()
@@ -57,8 +57,7 @@ class test_add_group_py(unittest.TestCase):
         # submit group creation
         wd.find_element_by_name("submit").click()
 
-
-    def open_groups_page(self, wd):
+    def open_contacts_page(self, wd):
         wd.find_element_by_link_text("groups").click()
 
     def login(self, wd, username, password):
@@ -77,6 +76,7 @@ class test_add_group_py(unittest.TestCase):
 
     def tearDown(self):
         self.wd.quit()
+
 
 if __name__ == '__main__':
     unittest.main()
