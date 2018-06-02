@@ -2,7 +2,6 @@
 from selenium.webdriver.firefox.webdriver import WebDriver
 from application import Application
 from contact import Contact
-import unittest
 import pytest
 
 
