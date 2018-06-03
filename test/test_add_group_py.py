@@ -4,14 +4,6 @@ from fixture.application import Application
 import pytest
 
 
-@pytest.fixture()
-def app(request):
-    fixture = Application()
-    request.addfinalizer(fixture.destroy)
-    return fixture
-
-
-
 
     
 def test_test_add_group_py(app):
