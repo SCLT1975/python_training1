@@ -2,7 +2,7 @@
 from model.contact import Contact
 
 
-def test_test_add_group_py(app):
+def test_add_contact(app):
         app.session.login(username="admin", password="secret")
         app.contact.create(Contact(name="qwerty", middle_name="123", last_name="wqertyu", nick_name='wer',
                                    title='brsf', company='ertw', address='qwer', t_home='dsaf', t_mobile='234', t_work='345',
