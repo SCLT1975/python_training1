@@ -1,7 +1,7 @@
 
 class ContactHelper():
 
-
+    #primary methods
 
     def __init__(self, app):
         self.app = app
@@ -78,17 +78,28 @@ class ContactHelper():
         # submit group creation
         wd.find_element_by_name("update").click()
 
-    def fill_out_field(self, elements_name, filled_data):
-        wd = self.app.wd
-        wd.find_element_by_name(elements_name).click()
-        wd.find_element_by_name(elements_name).clear()
-        wd.find_element_by_name(elements_name).send_keys(filled_data)
+
 
 
     def delete(self):
         wd = self.app.wd
         wd.find_element_by_xpath("//tr[@name][1]/td[8]").click()
         wd.find_element_by_xpath("// input[ @ name = 'update'][1]").click()
+
+
+
+
+    #secondary methods
+
+    def fill_out_field(self, elements_name, filled_data):
+        wd = self.app.wd
+        if filled_data is not None:
+            wd.find_element_by_name(elements_name).click()
+            wd.find_element_by_name(elements_name).clear()
+            wd.find_element_by_name(elements_name).send_keys(filled_data)
+
+
+
 
 
 
