@@ -77,6 +77,7 @@ class ContactHelper():
         self.fill_out_field('ayear', contact.a_year)
         # submit group creation
         wd.find_element_by_name("update").click()
+        wd.find_element_by_xpath("//i/a[2]").click()
 
 
 
@@ -84,7 +85,7 @@ class ContactHelper():
     def delete(self):
         wd = self.app.wd
         wd.find_element_by_xpath("//tr[@name][1]/td[8]").click()
-        wd.find_element_by_xpath("// input[ @ name = 'update'][1]").click()
+        wd.find_element_by_xpath("//input[ @ value = 'Delete']").click()
 
 
 
@@ -99,7 +100,9 @@ class ContactHelper():
             wd.find_element_by_name(elements_name).send_keys(filled_data)
 
 
-
+    def count(self):
+        wd = self.app.wd
+        return len(wd.find_elements_by_name("selected[]"))
 
 
 
