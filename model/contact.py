@@ -1,9 +1,9 @@
 
-
+from sys import maxsize
 
 class Contact:
 
-    def __init__(self, name=None, middle_name=None, last_name=None, nick_name=None, title=None, company=None, address=None, t_home=None, t_mobile=None, t_work=None, t_fax=None, email1=None, email2=None, email3=None, homepage=None, address2=None, home2=None, notes=None, b_year=None, a_year=None):
+    def __init__(self, name=None, middle_name=None, last_name=None, nick_name=None, title=None, company=None, address=None, t_home=None, t_mobile=None, t_work=None, t_fax=None, email1=None, email2=None, email3=None, homepage=None, address2=None, home2=None, notes=None, b_year=None, a_year=None, id=None):
         self.name = name
         self.middle_name = middle_name
         self.last_name = last_name
@@ -24,4 +24,18 @@ class Contact:
         self.notes = notes
         self.b_year = b_year
         self.a_year = a_year
+        self.id = id
 
+
+    def __repr__(self):
+        return "%s:%s:%s" % (self.id, self.name,self.last_name)
+
+
+    def __eq__(self, other):
+        return (self.id is None or other.id is None or self.id == other.id), self.name == other.name, self.last_name == other.last_name
+
+    def id_or_max(gr):
+        if gr.id:
+            return int(gr.id)
+        else:
+            return maxsize

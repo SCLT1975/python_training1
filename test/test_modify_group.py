@@ -4,7 +4,14 @@ from model.group import Group
 
 
 
-def test_test_add_group_py(app):
+def test_modify_group_py(app):
     if app.group.count() == 0:
         app.group.create(Group(name="123"))
-    app.group.modify(Group(name="qwerty", header="123", footer="wqertyu"))
+    old_groups = app.group.get_group_list()
+    group = Group(name="qwerty", header="123", footer="wqertyu")
+    group.id = old_groups[0].id
+    app.group.modify(group)
+    new_groups = app.group.get_group_list()
+    assert len(old_groups) == len(new_groups)
+    old_groups[0] = group
+    assert sorted(old_groups, key=Group.id_or_max) == sorted(new_groups, key=Group.id_or_max)
