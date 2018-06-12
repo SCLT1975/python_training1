@@ -8,7 +8,7 @@ class ContactHelper():
 
     def create(self, contact):
         wd = self.app.wd
-        self.open_contacts_page()
+        self.open_for_creation()
         # Fill out сontacts' textfields
         self.fill_out_field('firstname', contact.name)
         self.fill_out_field('middlename', contact.middle_name)
@@ -44,6 +44,7 @@ class ContactHelper():
 
     def modify(self, contact):
         wd = self.app.wd
+        self.open_contacts_page()
         wd.find_element_by_xpath("//tr[@name][1]/td[8]").click()
         # Fill out сontacts' textfields
         self.fill_out_field('firstname', contact.name)
@@ -77,13 +78,14 @@ class ContactHelper():
         self.fill_out_field('ayear', contact.a_year)
         # submit group creation
         wd.find_element_by_name("update").click()
-        wd.find_element_by_xpath("//i/a[2]").click()
+
 
 
 
 
     def delete(self):
         wd = self.app.wd
+        self.open_contacts_page()
         wd.find_element_by_xpath("//tr[@name][1]/td[8]").click()
         wd.find_element_by_xpath("//input[ @ value = 'Delete']").click()
 
@@ -107,6 +109,11 @@ class ContactHelper():
 
 
 
-    def open_contacts_page(self):
+    def open_for_creation(self):
         wd = self.app.wd
         wd.find_element_by_link_text("add new").click()
+
+    def open_contacts_page(self):
+        wd = self.app.wd
+        if not (wd.current_url.endswith('/addressbook') and len(wd.find_elements_by_name("add")) > 0):
+            wd.find_element_by_link_text("home").click()
