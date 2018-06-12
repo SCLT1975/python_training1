@@ -11,7 +11,7 @@ def test_modify_group_py(app):
     group = Group(name="qwerty", header="123", footer="wqertyu")
     group.id = old_groups[0].id
     app.group.modify(group)
+    assert len(old_groups) == app.group.count()
     new_groups = app.group.get_group_list()
-    assert len(old_groups) == len(new_groups)
     old_groups[0] = group
     assert sorted(old_groups, key=Group.id_or_max) == sorted(new_groups, key=Group.id_or_max)
