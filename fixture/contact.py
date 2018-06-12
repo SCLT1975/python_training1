@@ -47,10 +47,13 @@ class ContactHelper():
         wd.find_element_by_name("submit").click()
         self.contact_cache = None
 
-    def modify(self, contact):
+
+    def modify(self):
+        self.modify_by_index(0)
+
+    def modify_by_index(self, contact, index):
         wd = self.app.wd
-        self.open_contacts_page()
-        wd.find_element_by_xpath("//tr[@name][1]/td[8]").click()
+        self.open_contact_to_edit_by_index(index)
         # Fill out сontacts' textfields
         self.fill_out_field('firstname', contact.name)
         self.fill_out_field('middlename', contact.middle_name)
@@ -90,9 +93,12 @@ class ContactHelper():
 
 
     def delete(self):
+        self.delete_by_index(0)
+
+
+    def delete_by_index(self, index):
         wd = self.app.wd
-        self.open_contacts_page()
-        wd.find_element_by_xpath("//tr[@name][1]/td[8]").click()
+        self.open_contact_to_edit_by_index(index)
         wd.find_element_by_xpath("//input[ @ value = 'Delete']").click()
         self.contact_cache = None
 
@@ -100,6 +106,14 @@ class ContactHelper():
 
 
     #secondary methods
+
+
+    def open_contact_to_edit_by_index(self, index):
+        wd = self.app.wd
+        self.open_contacts_page()
+        row = wd.find_elements_by_name('entry')[index]
+        row.find_element_by_xpath("./td[8]/a").click()
+
 
     def fill_out_field(self, elements_name, filled_data):
         wd = self.app.wd
@@ -134,11 +148,10 @@ class ContactHelper():
             wd = self.app.wd
             self.open_contacts_page()
             self.contact_cache = []
-            for element in wd.find_elements_by_xpath("//tbody/tr[@name = 'entry']"):
-                elements = element.find_elements_by_xpath("//td")
+            for element in wd.find_elements_by_name("entry"):
+                elements = element.find_elements_by_xpath("./td")
                 name = elements[2].text
                 sirname = elements[1].text
                 id = elements[0].find_element_by_name("selected[]").get_attribute("value")
                 self.contact_cache.append(Contact(name=name, last_name=sirname, id=id))
-        debug = self.contact_cache
         return list(self.contact_cache)

@@ -24,17 +24,23 @@ class GroupHelper():
 
 
     def delete(self):
+        self.delete_by_index(0)
+
+    def delete_by_index(self, index):
         wd = self.app.wd
         self.open_groups_page()
-        self.select_first_group()
+        self.select_group_by_index(index)
         wd.find_element_by_name("delete").click()
         self.group_cache = None
 
-    def modify(self, group):
+    def modify(self):
+        self.modify_by_index(0)
+
+    def modify_by_index(self, group, index):
             wd = self.app.wd
             # start group modification
             self.open_groups_page()
-            self.select_first_group()
+            self.select_group_by_index(index)
             wd.find_element_by_name("edit").click()
             self.fill_group_form(group)
             # submit group creation
@@ -62,9 +68,9 @@ class GroupHelper():
             wd.find_element_by_name("group_name").send_keys(text)
 
 
-    def select_first_group(self):
+    def select_group_by_index(self, index):
         wd = self.app.wd
-        wd.find_element_by_xpath("//span[@class='group'][1]/input").click()
+        wd.find_elements_by_name("selected[]")[index].click()
 
 
 
