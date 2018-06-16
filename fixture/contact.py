@@ -1,6 +1,7 @@
 
 
 from model.contact import Contact
+import re
 
 
 class ContactHelper():
@@ -115,6 +116,13 @@ class ContactHelper():
         row.find_element_by_xpath("./td[8]/a").click()
 
 
+    def open_contact_to_view_by_index(self, index):
+        wd = self.app.wd
+        self.open_contacts_page()
+        row = wd.find_elements_by_name('entry')[index]
+        row.find_element_by_xpath("./td[7]/a").click()
+
+
     def fill_out_field(self, elements_name, filled_data):
         wd = self.app.wd
         if filled_data is not None:
@@ -153,5 +161,36 @@ class ContactHelper():
                 name = elements[2].text
                 sirname = elements[1].text
                 id = elements[0].find_element_by_name("selected[]").get_attribute("value")
-                self.contact_cache.append(Contact(name=name, last_name=sirname, id=id))
+                all_phones = elements[5].text
+                all_emeils = elements[4].text
+                self.contact_cache.append(Contact(name=name, last_name=sirname, id=id, all_phones_from_home_page=all_phones, all_emails_from_home_page=all_emeils))
         return list(self.contact_cache)
+
+
+
+    def get_contact_info_from_edit_page(self, index):
+        wd = self.app.wd
+        self.open_contact_to_edit_by_index(index)
+        firstname = wd.find_element_by_name('firstname').get_attribute('value')
+        lastname = wd.find_element_by_name('lastname').get_attribute('value')
+        id = wd.find_element_by_name('id').get_attribute('value')
+        t_home = wd.find_element_by_name('home').get_attribute('value')
+        t_work = wd.find_element_by_name('work').get_attribute('value')
+        mobilephone = wd.find_element_by_name('mobile').get_attribute('value')
+        home2 = wd.find_element_by_name('phone2').get_attribute('value')
+        email1 = wd.find_element_by_name('email').get_attribute('value')
+        email2 = wd.find_element_by_name('email2').get_attribute('value')
+        email3 = wd.find_element_by_name('email3').get_attribute('value')
+        return Contact(name=firstname, last_name=lastname, id=id, t_home=t_home, t_work=t_work, t_mobile=mobilephone,
+                       home2=home2, email1=email1, email2=email2,email3=email3)
+
+    def get_contact_info_from_view_page(self, index):
+        wd = self.app.wd
+        self.open_contact_to_view_by_index(index)
+        text = wd.find_element_by_id("content").text
+        t_home = re.search("H: (.*)", text).group(1)
+        t_work = re.search("W: (.*)", text).group(1)
+        mobilephone = re.search("M: (.*)", text).group(1)
+        home2 = re.search("P: (.*)", text).group(1)
+        return Contact(t_home=t_home, t_work=t_work, t_mobile=mobilephone,
+                       home2=home2)
