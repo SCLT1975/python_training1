@@ -65,7 +65,7 @@ class GroupHelper():
         if text is not None:
             wd.find_element_by_name(field_name).click()
             wd.find_element_by_name(field_name).clear()
-            wd.find_element_by_name("group_name").send_keys(text)
+            wd.find_element_by_name(field_name).send_keys(text)
 
 
     def select_group_by_index(self, index):
