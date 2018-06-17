@@ -37,7 +37,11 @@ class Contact:
 
 
     def __eq__(self, other):
-        return (self.id is None or other.id is None or self.id == other.id), self.name == other.name, self.last_name == other.last_name
+        return (self.id is None or other.id is None or self.id == other.id), self.name == other.name, \
+               self.last_name == other.last_name, self.all_emails_from_home_page == other.all_emails_from_home_page, \
+               self.all_phones_from_home_page == other.all_phones_from_home_page, self.address == other.address, \
+               self.t_home == other.t_home, self.t_mobile == other.t_mobile, self.t_work == other.t_work, \
+               self.home2 == other.home2
 
     def id_or_max(gr):
         if gr.id:
