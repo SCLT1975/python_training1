@@ -89,6 +89,42 @@ class ContactHelper():
         wd.find_element_by_name("update").click()
         self.contact_cache = None
 
+    def modify_by_id(self, contact, id):
+        wd = self.app.wd
+        self.open_contact_to_edit_by_id(id)
+        # Fill out сontacts' textfields
+        self.fill_out_field('firstname', contact.name)
+        self.fill_out_field('middlename', contact.middle_name)
+        self.fill_out_field('lastname', contact.last_name)
+        self.fill_out_field('nickname', contact.nick_name)
+        self.fill_out_field('title', contact.title)
+        self.fill_out_field('company', contact.company)
+        self.fill_out_field('address', contact.address)
+        self.fill_out_field('home', contact.t_home)
+        self.fill_out_field('mobile', contact.t_mobile)
+        self.fill_out_field('work', contact.t_work)
+        self.fill_out_field('fax', contact.t_fax)
+        self.fill_out_field('email', contact.email1)
+        self.fill_out_field('email2', contact.email2)
+        self.fill_out_field('email3', contact.email3)
+        self.fill_out_field('homepage', contact.homepage)
+        self.fill_out_field('address2', contact.address2)
+        self.fill_out_field('phone2', contact.home2)
+        self.fill_out_field('notes', contact.notes)
+        # fill out contacts' datapickers
+        wd.find_element_by_name('bday').click()
+        wd.find_element_by_xpath("//select/option[7]").click()
+        wd.find_element_by_name('bmonth').click()
+        wd.find_element_by_xpath("//select/option[@value='January']").click()
+        wd.find_element_by_name('aday').click()
+        wd.find_element_by_xpath("//select[3]/option[20]").click()
+        wd.find_element_by_name('amonth').click()
+        wd.find_element_by_xpath("//select[4]/option[7]").click()
+        self.fill_out_field('byear', contact.b_year)
+        self.fill_out_field('ayear', contact.a_year)
+        # submit group creation
+        wd.find_element_by_name("update").click()
+        self.contact_cache = None
 
 
 
@@ -103,6 +139,13 @@ class ContactHelper():
         wd.find_element_by_xpath("//input[ @ value = 'Delete']").click()
         self.contact_cache = None
 
+    def delete_by_id(self, id):
+        wd = self.app.wd
+        self.open_contact_to_edit_by_id(id)
+        wd.find_element_by_xpath("//input[ @ value = 'Delete']").click()
+        self.open_contacts_page()
+        self.contact_cache = None
+
 
 
 
@@ -114,6 +157,11 @@ class ContactHelper():
         self.open_contacts_page()
         row = wd.find_elements_by_name('entry')[index]
         row.find_element_by_xpath("./td[8]/a").click()
+
+    def open_contact_to_edit_by_id(self, id):
+        wd = self.app.wd
+        self.open_contacts_page()
+        wd.find_element_by_xpath("//a[contains(@href, %s) and contains(@href, 'edit.php?id=')]" % id).click()
 
 
     def open_contact_to_view_by_index(self, index):
