@@ -147,6 +147,29 @@ class ContactHelper():
         self.contact_cache = None
 
 
+    def add_to_group(self, contact_id, group_id):
+        wd = self.app.wd
+        self.open_contacts_page()
+        wd.find_element_by_xpath("//input[@id='%s']" % contact_id).click()
+        wd.find_element_by_xpath("//select[@name='to_group']").click()
+        wd.find_element_by_xpath("//select[@name='to_group']/option[@value='%s']" % group_id).click()
+        wd.find_element_by_name("add").click()
+        self.open_contacts_page()
+
+    def del_from_group(self, contact_id, group_id):
+        wd = self.app.wd
+        self.open_contacts_page()
+        wd.find_element_by_name("group").click()
+        wd.find_element_by_xpath("//select[@name='group']/option[@value='%s']" % group_id).click()
+        wd.find_element_by_xpath("//input[@id='%s']" % contact_id).click()
+        wd.find_element_by_name("remove").click()
+        self.open_contacts_page()
+        #wd.find_element_by_name("group").click()
+        #wd.find_element_by_xpath("//select[@name='group']//option='[all]'").click()
+
+
+
+
 
 
     #secondary methods
